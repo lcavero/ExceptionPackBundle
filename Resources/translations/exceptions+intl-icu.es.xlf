@@ -6,6 +6,21 @@
                 <source>lcv.invalid.formulary</source>
                 <target>Formulario inválido</target>
             </trans-unit>
+
+            <trans-unit id="lcv.critical_error">
+                <source>lcv.critical_error</source>
+                <target>Esta ruta no funciona en estos momentos. Por favor, inténtelo más tarde. Si el error persiste, por favor, concacte con nosotros en { contact_email }</target>
+            </trans-unit>
+
+            <trans-unit id="lcv.http_route_not_found">
+                <source>lcv.http_route_not_found</source>
+                <target>La ruta {path} no existe</target>
+            </trans-unit>
+
+            <trans-unit id="lcv.http_method_not_allowed">
+                <source>lcv.http_method_not_allowed</source>
+                <target>El método {method} no está permitido para esta ruta</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

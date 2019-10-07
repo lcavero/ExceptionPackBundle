@@ -28,9 +28,9 @@ class ExceptionPackExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $definition = $container->getDefinition('lcv.exception_listener');
-        $definition->replaceArgument(3, $config['error_emails']['enabled']);
-        $definition->replaceArgument(4, $config['error_emails']['from_email']);
-        $definition->replaceArgument(5, $config['error_emails']['to_email']);
+        $definition->replaceArgument(3, $config['environment']);
+        $definition->replaceArgument(4, $config['contact_email']);
+        $definition->replaceArgument(5, $config['error_emails']);
 
     }
 }

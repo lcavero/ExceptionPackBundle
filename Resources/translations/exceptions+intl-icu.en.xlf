@@ -6,6 +6,21 @@
                 <source>lcv.invalid.formulary</source>
                 <target>Invalid formulary</target>
             </trans-unit>
+
+            <trans-unit id="lcv.critical_error">
+                <source>lcv.critical_error</source>
+                <target>This route does not work at this time. Please try again later. If the error persists, please contact us at { contact_email }</target>
+            </trans-unit>
+
+            <trans-unit id="lcv.http_route_not_found">
+                <source>lcv.http_route_not_found</source>
+                <target>No route found for {path}</target>
+            </trans-unit>
+
+            <trans-unit id="lcv.http_method_not_allowed">
+                <source>lcv.http_method_not_allowed</source>
+                <target>Method {method} not allowed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

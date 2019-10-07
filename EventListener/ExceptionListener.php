@@ -16,40 +16,46 @@ class ExceptionListener
 {
     private $user;
     private $mailer;
-    private $parameterBag;
     private $translator;
-    private $enabled;
-    private $from;
-    private $to;
+
+    private $environment;
+    private $contact_email;
+    private $error_emails_config;
+
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
         \Swift_Mailer $mailer,
         TranslatorInterface $translator,
-        $enabled,
-        $from = "",
-        $to = ""
+        $environment,
+        $contact_email,
+        $error_emails_config
     )
     {
         $this->mailer = $mailer;
         $this->translator = $translator;
-        $this->enabled = $enabled;
-        $this->from = $from;
-        $this->to = $to;
 
         if($tokenStorage->getToken() != null){
             $user = $tokenStorage->getToken()->getUser();
             if($user instanceof UserInterface){
                 $user = $user->getUsername();
+            }else if(!is_string($user)){
+                $user = strval($user);
             }
-            $this->user = $user;
+        }else{
+            $user = "Anonymous";
         }
+
+        $this->user = $user;
+
+        $this->environment = $environment;
+        $this->contact_email = $contact_email;
+        $this->error_emails_config = $error_emails_config;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        $admin_email = $this->parameterBag->get('admin_email');
 
         $params = [];
         $locale = null;
@@ -69,13 +75,13 @@ class ExceptionListener
 
             switch (get_class($exception)){
                 case NotFoundHttpException::class: {
-                    $message = "http_route_not_found";
+                    $message = "lcv.http_route_not_found";
                     $params = ['path' => $event->getRequest()->getRequestUri()];
                     break;
                 }
 
                 case MethodNotAllowedHttpException::class: {
-                    $message = "http_method_not_allowed";
+                    $message = "lcv.http_method_not_allowed";
                     $params = ['method' => $event->getRequest()->getMethod()];
                     break;
                 }
@@ -86,20 +92,20 @@ class ExceptionListener
             }
         }else{
             $status = 500;
-            $message = 'critical_error';
-            $params = ['admin_email' => $admin_email];
+            $message = 'lcv.critical_error';
+            $params = ['contact_email' => $this->contact_email];
         }
 
         $data = [
             'code' => $status,
-            'message' => $this->translator->trans($message, $params, 'exception', $locale)
+            'message' => $this->translator->trans($message, $params, 'exceptions', $locale)
         ];
 
         if($exception instanceof InvalidFormularyException){
             $data['constraints'] = $exception->getConstraintsErrors();
         }
 
-        if($this->parameterBag->get('app_env') == "dev"){
+        if($this->environment == "dev"){
             $data['exception'] = $exception->getMessage();
             $data['class'] = get_class($exception);
             $data['file'] = $exception->getFile();
@@ -110,12 +116,11 @@ class ExceptionListener
 
         $event->setResponse($response);
 
-
-        if($this->enabled && (!($exception instanceof HttpException) || $exception->getStatusCode() == 500)){
-            $message = new \Swift_Message('Exception Critical');
-            $message
-                ->setFrom($this->from)
-                ->setTo($this->to)
+        if($this->error_emails_config['enabled'] && (!($exception instanceof HttpException) || $exception->getStatusCode() == 500)){
+            $mailMessage = new \Swift_Message('Exception Critical');
+            $mailMessage
+                ->setFrom($this->error_emails_config['from_email'])
+                ->setTo($this->error_emails_config['to_email'])
                 ->setBody(
                     "<h1><b>Exception:</b> " . get_class($exception) . "</h1><p><b>User:</b> </p>"
                     . $this->user . "<p><b>Message:</b> </p>" . $exception->getMessage()
@@ -124,7 +129,7 @@ class ExceptionListener
                     , 'text/html')
             ;
 
-            $this->mailer->send($message);
+            $this->mailer->send($mailMessage);
         }
 
     }
