@@ -1,7 +1,7 @@
 services:
   lcv.exception_listener:
     class: LCV\ExceptionPackBundle\EventListener\ExceptionListener
-    arguments: [null, null, null,
+    arguments: ["@security.token_storage", "@mailer", "@translator",
                 "", "", ""]
     tags:
       - { name: kernel.event_listener, event: kernel.exception, priority: 1 }
