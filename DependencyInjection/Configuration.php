@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('environment')->defaultValue('prod')
+                ->scalarNode('environment')->defaultValue('prod')->end()
             ->end()
             ->children()
                 ->scalarNode('contact_email')->defaultValue("")->end()
