@@ -31,6 +31,11 @@
                 <source>lcv.http_method_not_allowed</source>
                 <target>Method {method} not allowed</target>
             </trans-unit>
+
+            <trans-unit id="lcv.security_forbidden_access">
+                <source>lcv.security_forbidden_access</source>
+                <target>Forbidden access to this route or resource</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

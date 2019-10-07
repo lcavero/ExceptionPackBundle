@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -60,6 +61,34 @@ class ExceptionListener
 
         $params = [];
         $locale = null;
+        $status = null;
+        $message = null;
+
+
+        switch (get_class($exception)){
+            case NotFoundHttpException::class: {
+                $message = "lcv.http_route_not_found";
+                $params = ['path' => $event->getRequest()->getRequestUri()];
+                break;
+            }
+
+            case MethodNotAllowedHttpException::class: {
+                $message = "lcv.http_method_not_allowed";
+                $params = ['method' => $event->getRequest()->getMethod()];
+                break;
+            }
+
+            case AccessDeniedException::class: {
+                $status = 403;
+                $message = "lcv.security_forbidden_access";
+                break;
+            }
+
+            default: {
+                $message = $exception->getMessage();
+            }
+        }
+
 
         if($exception instanceof HttpException){
             $status = $exception->getStatusCode();
@@ -73,29 +102,12 @@ class ExceptionListener
                     $locale = \Locale::canonicalize($pathParams[1]);
                 }
             }
-
-            switch (get_class($exception)){
-                case NotFoundHttpException::class: {
-                    $message = "lcv.http_route_not_found";
-                    $params = ['path' => $event->getRequest()->getRequestUri()];
-                    break;
-                }
-
-                case MethodNotAllowedHttpException::class: {
-                    $message = "lcv.http_method_not_allowed";
-                    $params = ['method' => $event->getRequest()->getMethod()];
-                    break;
-                }
-
-                default: {
-                    $message = $exception->getMessage();
-                }
-            }
         }else{
-            $status = 500;
-            $message = 'lcv.critical_error';
-            $params = ['contact_email' => $this->contact_email];
+            $status = $status ?: 500;
+            $message = $message ?: 'lcv.critical_error';
+            $params = empty($params) ? $params : ['contact_email' => $this->contact_email];
         }
+
         if($exception instanceof ApiException){
             $params = array_merge($params, $exception->getTranslationParams());
         }
