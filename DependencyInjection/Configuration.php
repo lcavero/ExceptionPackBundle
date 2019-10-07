@@ -15,8 +15,10 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('lcv_exception_pack');
 
         $treeBuilder->getRootNode()
+            ->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('error_emails')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
                         ->scalarNode('from_email')->end()
