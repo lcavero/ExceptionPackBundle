@@ -19,6 +19,7 @@
         "symfony/polyfill-intl-messageformatter": "^1.12",
         "symfony/translation": "4.3.*",
         "symfony/swiftmailer-bundle": "^3.2",
+        "swiftmailer/swiftmailer": "^6.0",
         "symfony/security-bundle": "4.3.*",
         "symfony/framework-bundle": "^3.4 || ^4.0",
         "ext-intl": "*"
