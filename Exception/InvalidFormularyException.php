@@ -6,7 +6,7 @@ class InvalidFormularyException extends ApiException
 {
     protected $constraintsErrors;
 
-    public function __construct($constraintsErrors = [], $message = "lcv.invalid.formulary", \Exception $previous = null,
+    public function __construct($constraintsErrors = [], $message = "lcv.invalid_formulary", \Exception $previous = null,
                                 $statusCode = 400)
     {
         $this->constraintsErrors = $constraintsErrors;
