@@ -21,8 +21,8 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
-                        ->scalarNode('from_email')->end()
-                        ->scalarNode('to_email')->end()
+                        ->scalarNode('from_email')->defaultValue("")->end()
+                        ->scalarNode('to_email')->defaultValue("")->end()
                     ->end()
                 ->end() // error_emails
             ->end()
