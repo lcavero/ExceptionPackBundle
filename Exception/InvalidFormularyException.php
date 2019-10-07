@@ -13,7 +13,7 @@ class InvalidFormularyException extends ApiException
                                 $statusCode = 400)
     {
         $this->constraintsErrors = $constraintsErrors;
-        parent::__construct($statusCode, $message, $previous);
+        parent::__construct($statusCode, $message, $translationParams, $previous);
     }
 
     /**
