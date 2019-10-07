@@ -10,6 +10,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class ExceptionPackExtension extends Extension
 {
+
+    public function getAlias()
+    {
+        return 'lcv_exception_pack';
+    }
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader(
