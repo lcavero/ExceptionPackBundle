@@ -36,6 +36,11 @@
                 <source>lcv.security_forbidden_access</source>
                 <target>Acceso prohibido a esta ruta o recurso</target>
             </trans-unit>
+
+            <trans-unit id="lcv.security_unauthorized_access">
+                <source>lcv.security_unauthorized_access</source>
+                <target>Debes estar autenticado para acceder a esta ruta. Por favor, incluye el header "Authorization Bearer"</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -79,8 +79,13 @@ class ExceptionListener
             }
 
             case AccessDeniedException::class: {
-                $status = 403;
-                $message = "lcv.security_forbidden_access";
+                if($this->user instanceof UserInterface){
+                    $status = 403;
+                    $message = "lcv.security_forbidden_access";
+                }else{
+                    $status = 401;
+                    $message = "lcv.security_unauthorized_access";
+                }
                 break;
             }
 
