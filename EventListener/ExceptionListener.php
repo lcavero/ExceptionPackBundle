@@ -2,6 +2,7 @@
 
 namespace LCV\ExceptionPackBundle\EventListener;
 
+use LCV\ExceptionPackBundle\Exception\ApiException;
 use LCV\ExceptionPackBundle\Exception\InvalidFormularyException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -94,6 +95,9 @@ class ExceptionListener
             $status = 500;
             $message = 'lcv.critical_error';
             $params = ['contact_email' => $this->contact_email];
+        }
+        if($exception instanceof ApiException){
+            $params = array_merge($params, $exception->getTranslationParams());
         }
 
         $data = [
