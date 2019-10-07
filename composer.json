@@ -1,0 +1,39 @@
+{
+    "name": "lcv/exception-pack-bundle",
+    "type": "symfony-bundle",
+    "description": "Provides interesting utils to exceptions",
+    "keywords": [
+        "exception",
+        "exceptions"
+    ],
+    "homepage": "https://github.com/lcavero/LCVExceptionPackBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luis Cavero Martínez",
+            "email": "luiscaverodeveloper@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5|^7.0",
+        "symfony/polyfill-intl-messageformatter": "^1.12",
+        "symfony/translation": "4.3.*",
+        "symfony/swiftmailer-bundle": "^3.2",
+        "symfony/security-bundle": "4.3.*",
+        "symfony/framework-bundle": "^3.4 || ^4.0",
+        "ext-intl": "*"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "LCV\\ExceptionPackBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
