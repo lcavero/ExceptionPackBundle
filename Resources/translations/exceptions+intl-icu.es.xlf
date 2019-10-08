@@ -39,7 +39,7 @@
 
             <trans-unit id="lcv.security_unauthorized_access">
                 <source>lcv.security_unauthorized_access</source>
-                <target>Debes estar autenticado para acceder a esta ruta. Por favor, incluye el header "Authorization Bearer"</target>
+                <target>Debes estar autenticado para acceder a esta ruta. Por favor, incluye el header 'Authorization Bearer'</target>
             </trans-unit>
         </body>
     </file>

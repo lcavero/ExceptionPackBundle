@@ -17,6 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ExceptionListener
 {
     private $user;
+    private $realUser;
     private $mailer;
     private $translator;
 
@@ -38,7 +39,7 @@ class ExceptionListener
         $this->translator = $translator;
 
         if($tokenStorage->getToken() != null){
-            $user = $tokenStorage->getToken()->getUser();
+            $this->realUser = $user = $tokenStorage->getToken()->getUser();
             if($user instanceof UserInterface){
                 $user = $user->getUsername();
             }else if(!is_string($user)){
@@ -79,7 +80,8 @@ class ExceptionListener
             }
 
             case AccessDeniedException::class: {
-                if($this->user instanceof UserInterface){
+
+                if($this->realUser instanceof UserInterface){
                     $status = 403;
                     $message = "lcv.security_forbidden_access";
                 }else{
