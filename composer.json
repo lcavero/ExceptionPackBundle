@@ -15,14 +15,16 @@
         }
     ],
     "require": {
-        "php": "^5.5|^7.0",
-        "symfony/polyfill-intl-messageformatter": "^1.12",
-        "symfony/translation": "~3.4|~4.0",
-        "symfony/swiftmailer-bundle": "~2.3|~3.2",
+        "php": ">= 7.2",
+        "ext-intl": "*",
+        "lcv/common-exceptions": "^1.0",
         "swiftmailer/swiftmailer": "^6.0",
-        "symfony/security-bundle": "~3.4|~4.0",
-        "symfony/framework-bundle": "~3.4|~4.0",
-        "ext-intl": "*"
+        "symfony/framework-bundle": "~4.3",
+        "symfony/http-kernel": "~4.3",
+        "symfony/polyfill-intl-messageformatter": "^1.12",
+        "symfony/security-bundle": "~4.3",
+        "symfony/swiftmailer-bundle": "~2.3|~3.2",
+        "symfony/translation": "~4.3"
     },
     "config": {
         "sort-packages": true

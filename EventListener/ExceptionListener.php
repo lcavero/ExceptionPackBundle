@@ -2,10 +2,11 @@
 
 namespace LCV\ExceptionPackBundle\EventListener;
 
-use LCV\ExceptionPackBundle\Exception\ApiException;
-use LCV\ExceptionPackBundle\Exception\InvalidFormularyException;
+use LCV\CommonExceptions\Exception\ApiException;
+use LCV\CommonExceptions\Exception\InvalidConstraintsException;
+use Swift_Mailer;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,7 +29,7 @@ class ExceptionListener
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        \Swift_Mailer $mailer,
+        Swift_Mailer $mailer,
         TranslatorInterface $translator,
         $environment,
         $contact_email,
@@ -56,7 +57,7 @@ class ExceptionListener
         $this->error_emails_config = $error_emails_config;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getException();
 
@@ -124,7 +125,7 @@ class ExceptionListener
             'message' => $this->translator->trans($message, $params, 'exceptions', $locale)
         ];
 
-        if($exception instanceof InvalidFormularyException){
+        if($exception instanceof InvalidConstraintsException){
             $data['constraints'] = $exception->getConstraintsErrors();
         }
 
